@@ -1,0 +1,47 @@
+
+GET http://localhost:3000/stds
+
+###
+GET http://localhost:3000/stds/636d7c96572002190611de2e
+
+
+###
+POST http://localhost:3000/stds
+Content-Type: application/json
+
+{
+    "email":"sdfd@gmail.com",
+    "first_name":"sdf",
+    "last_name":"ssss"
+    
+}
+
+###
+PATCH  http://localhost:3000/stds/636d7c96572002190611de2e
+Content-Type: application/json
+
+{
+    "email":"pat@gmail.com",
+    "first_name":"patrick",
+    "last_name":"b"
+
+}
+###
+DELETE http://localhost:3000/stds/636d824eccd9b8bdd594de83
+
+
+###
+GET http://localhost:3000/users/636da54f42159349b07739b4
+
+
+
+###
+POST http://localhost:3000/users/
+Content-Type: application/json
+
+{
+    "email":"user2@gmail.com",
+    "first_name":"user2",
+    "last_name":"ssss",
+    "password":"123"
+}
