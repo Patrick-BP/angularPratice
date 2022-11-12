@@ -9,10 +9,24 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'))
-
+const PRIVATE_KEY = "CS569-2022-11";
+function auth(req, res, next) {
+    if (req.headers.authorization) {
+      const token = req.headers.authorization.split(" ")[1];
+      jwt.verify(token, PRIVATE_KEY, (error, data) => {
+        if (error) {
+          res.send({ success: 0, error: "Wrong Token" });
+          return;
+        }
+        next();
+      });
+    } else {
+      res.send({ success: 0, error: "you are not authorized" });
+    }
+  }
 
 app.use('/users', userRouter);
-app.use('/stds', studentRouter);
+app.use('/stds', auth, studentRouter);
 
 app.use((req, res, next) => {
     res.status(404).send({ error: 'API NOT SUPPORTED' });
