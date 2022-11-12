@@ -13,6 +13,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const MY_ROUTES: Routes = [
   { path: '', component: HomeComponent, title: 'Welcome' },
+  { path: 'login', component: LoginComponent, title: 'Login' },
+  { path: 'register', component: RegisterComponent, title: 'Register' },
   {
     path: 'studs',
     loadChildren: () =>

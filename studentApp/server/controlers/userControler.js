@@ -22,8 +22,9 @@ exports.login = async (req, res) => {
         const match = bcrypt.compareSync(password, user.password)
         
       if (match) {
-       const token = jwt.sign({email, fullname:user.fullname}, PRIVATE_KEY);
-        res.json({ success: 1, data: token});
+        
+       const tokenHash = jwt.sign({email, fullname: user.fullname}, PRIVATE_KEY);
+        res.json({ success: 1, data: tokenHash});
         
       } else {
         res.json({ success: 0, error: "Wrong Password" });

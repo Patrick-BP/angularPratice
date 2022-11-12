@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { IState } from './state.interface';
+import { StateService } from './state.service';
+import { IUser } from './user.interface';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +23,7 @@ import { Component } from '@angular/core';
       <a class="navbar-item" [routerLink]="['']">
         Home
       </a>
-      <a class="navbar-item" [routerLink]="['studs']">
+      <a class="navbar-item" [routerLink]="['studs']" *ngIf="state">
        Students
       </a>
       
@@ -30,8 +33,23 @@ import { Component } from '@angular/core';
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="field is-grouped">
-         
-          <p class="control">
+        <p class="control" *ngIf="!state">
+            <a class="button is-primary" [routerLink]="['login']" >
+              <span class="icon">
+              <i class="fa-solid fa-right-to-bracket"></i>
+              </span>
+              <span>Login</span>
+            </a>
+          </p>
+          <p class="control" *ngIf="!state">
+            <a class="button is-primary" [routerLink]="['register']" >
+              <span class="icon">
+              <i class="fa-solid fa-user-plus"></i>
+              </span>
+              <span>Register</span>
+            </a>
+          </p>
+          <p class="control" *ngIf="state">
             <a class="button is-primary" href="#">
               <span class="icon">
               <i class="fa-solid fa-right-from-bracket"></i>
@@ -65,4 +83,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'myapp2';
+state!: IState;
+  constructor(private stateService: StateService){
+    this.stateService.state.subscribe((state: IState)=>{
+this.state = state;
+    })
+  }
 }
