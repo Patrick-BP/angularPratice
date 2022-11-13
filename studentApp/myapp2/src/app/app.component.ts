@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { IState } from './state.interface';
 import { StateService } from './state.service';
 import { IUser } from './user.interface';
@@ -29,7 +30,7 @@ import { IUser } from './user.interface';
       <div id="navbarExampleTransparentExample" class="navbar-menu">
         <div class="navbar-start">
           <a class="navbar-item" [routerLink]="['']"> Home </a>
-          <a class="navbar-item" [routerLink]="['studs']" *ngIf="state">
+          <a class="navbar-item" [routerLink]="['studs']" *ngIf="state.token">
             Students
           </a>
         </div>
@@ -37,7 +38,7 @@ import { IUser } from './user.interface';
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="field is-grouped">
-              <p class="control" *ngIf="!state">
+              <p class="control" *ngIf="!state.token">
                 <a class="button is-primary" [routerLink]="['login']">
                   <span class="icon">
                     <i class="fa-solid fa-right-to-bracket"></i>
@@ -45,7 +46,7 @@ import { IUser } from './user.interface';
                   <span>Login</span>
                 </a>
               </p>
-              <p class="control" *ngIf="!state">
+              <p class="control" *ngIf="!state.token">
                 <a class="button is-primary" [routerLink]="['register']">
                   <span class="icon">
                     <i class="fa-solid fa-user-plus"></i>
@@ -53,13 +54,13 @@ import { IUser } from './user.interface';
                   <span>Register</span>
                 </a>
               </p>
-              <p class="control" *ngIf="state">
-                <a class="button is-primary" href="#">
+              <p class="control" *ngIf="state.token">
+                <span class="button is-primary" (click)="logout()">
                   <span class="icon">
                     <i class="fa-solid fa-right-from-bracket"></i>
                   </span>
                   <span>Logout</span>
-                </a>
+                </span>
               </p>
             </div>
           </div>
@@ -87,14 +88,31 @@ import { IUser } from './user.interface';
       </div>
     </footer>
   `,
-  styleUrls: ['./app.component.css'],
+  styles: [
+    `
+      .navbar {
+        width: 96%;
+        margin: auto;
+      }
+    `,
+  ],
 })
 export class AppComponent {
   title = 'myapp2';
   state!: IState;
-  constructor(private stateService: StateService) {
+  constructor(private stateService: StateService, private router: Router) {
     this.stateService.state.subscribe((state: IState) => {
       this.state = state;
     });
+  }
+
+  logout() {
+    this.stateService.state.next({
+      email: '',
+      fullname: '',
+      token: '',
+    });
+    localStorage.clear();
+    this.router.navigate(['']);
   }
 }

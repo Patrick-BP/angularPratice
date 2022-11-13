@@ -14,7 +14,7 @@ import { StudentService } from './student.service';
       <div class="media-left">
         <figure class="image is-50x50">
           <img
-            [src]="std.avatar"
+            src="{{std.avatar}}"
             style="width:50px ;"
             alt="Placeholder image"
           />

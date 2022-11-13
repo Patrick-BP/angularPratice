@@ -53,16 +53,16 @@ form = inject(FormBuilder).nonNullable.group({
 
   submitFunc(){
     this.userService.login(this.form.value as IUser).subscribe((response)=>{
-      console.log(response);
       if(response.success){
         this.toaster.success("Welcome!");
         const decoded = jwt_decode(response.data) as IUser;
-        console.log(decoded);
-        this.stateservice.state.next({
+        const state = {
           email:decoded.email,
           fullname:decoded.fullname,
           token:response.data
-        })
+        }
+        this.stateservice.state.next(state)
+        localStorage.setItem('STATE', JSON.stringify(state))
         this.router.navigate([''])
      }else{
        this.toaster.error("Login Failed")

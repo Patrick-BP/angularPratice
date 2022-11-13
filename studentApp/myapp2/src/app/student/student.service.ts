@@ -16,8 +16,8 @@ export class StudentService {
   getStd(id:string) {
     return this.httpClient.get<{success:number, data:IStud}>(environment.server+`/stds/${id}`);
   }
-  addStd(student:IStud) {
-    return this.httpClient.post<{success:number, data:IStud}>(environment.server+`/stds`, student);
+  addStd(formData: FormData) {
+    return this.httpClient.post<{success:number, data:IStud}>(environment.server+`/stds`, formData);
   }
 
   updateStd(student:IStud, id:string) {

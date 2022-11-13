@@ -2,6 +2,7 @@ const express = require('express');
 const { ObjectId } = require('mongodb');
 const studentModele = require('../models/studentModel')
 
+
 exports.getAllStd = async(req, res)=>{
     try{
     const response = await studentModele.find({});
@@ -23,7 +24,8 @@ exports.getStdById = async(req, res)=>{
 
 exports.addStd = async(req, res)=>{
     try{
-        const response = await new studentModele(req.body).save();
+      
+        const response = await new studentModele({...req.body, avatar:req.file.filename}).save();
         res.json({success:1 ,data:response});  
         }catch(e){
         res.json({success:0 ,error:"Cannot get List of Students"}); 

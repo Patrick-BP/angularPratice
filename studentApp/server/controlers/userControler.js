@@ -16,6 +16,7 @@ exports.getUser = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
+    console.log(req.file);
     const { email, password } = req.body;
     const user = await userModele.findOne({ email });
     if (user) {
@@ -40,11 +41,13 @@ exports.login = async (req, res) => {
 exports.addUser = async (req, res) => {
   try {
     const user = req.body;
+    
     const find = await userModele.findOne({ email: req.body.email });
    
     if (!find) {
       user.password = bcrypt.hashSync(user.password, saltRounds);
-      const response = await new userModele(user).save();
+      const response = await new userModele({...user, avatar:req.filename}).save();
+      
       res.json({ success: 1, data: response });
     } else {
       res.json({ success: 0, error: "User already exist" });
